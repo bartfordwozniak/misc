@@ -1,0 +1,28 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+entity tb1 is
+end tb1;
+architecture tb1a of tb1 is
+component sum_4 is
+port(
+x, y : in std_logic; -- wejscia
+z : out std_logic -- wyjscie
+);
+end component;
+signal s_x , s_y, s_z : std_logic;
+begin
+lut: bramka port map(a=>s_x, y=>s_y, z=>s_z);
+film: process
+begin
+s_a0 <= '0';
+s_a1 <= '0';
+s_a2 <= '0';
+s_b0 <= '0';
+s_b1 <= '0';
+s_b2 <= '0';
+wait for 10 ns;
+
+wait for 10 ns;
+assert false severity failure;
+end process film;
+end bramka_tb_a;

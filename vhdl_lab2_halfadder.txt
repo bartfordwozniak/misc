@@ -1,0 +1,18 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+entity ha is -- ha znaczy half-adder
+port(
+a, b : in std_logic; -- wejscia
+sum : out std_logic; -- suma
+carry : out std_logic -- przeniesienie
+);
+end ha;
+architecture ha_a of ha is
+begin
+sum <= a xor b;
+carry <= a and b;
+end ha_a;
+
+
+
+
