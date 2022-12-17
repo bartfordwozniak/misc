@@ -1,0 +1,44 @@
+
+//Program ten wysyła impulsy o różnych długościach na pin PD5,
+//co powoduje przesunięcie serwomechanizmu do różnych pozycji. 
+//Zmienne SERVO_MIN, SERVO_MAX i SERVO_MID są definicjami stałych, 
+//które określają minimalny, maksymalny i środkowy czas trwania impulsu odpowiednio. 
+//W pętli nieskończonej wysyłane są trzy impulsy o różnych długościach, 
+//co powoduje przesunięcie serwomechanizmu do pozycji minimalnej, środkowej i maksymalnej.
+
+
+
+#include <avr/io.h>
+#include <util/delay.h>
+
+#define SERVO_MIN 500  // Minimalny czas trwania impulsu
+#define SERVO_MAX 2500 // Maksymalny czas trwania impulsu
+#define SERVO_MID 1500 // Środkowa pozycja serwomechanizmu
+
+int main(void)
+{
+  // Ustawienie pinu PD5 jako wyjście
+  DDRD |= (1 << PD5);
+
+  while (1)
+  {
+    // Przesunięcie serwomechanizmu do pozycji minimalnej
+    PORTD |= (1 << PD5);
+    _delay_us(SERVO_MIN);
+    PORTD &= ~(1 << PD5);
+    _delay_ms(20);
+
+    // Przesunięcie serwomechanizmu do pozycji środkowej
+    PORTD |= (1 << PD5);
+    _delay_us(SERVO_MID);
+    PORTD &= ~(1 << PD5);
+    _delay_ms(20);
+
+    // Przesunięcie serwomechanizmu do pozycji maksymalnej
+    PORTD |= (1 << PD5);
+    _delay_us(SERVO_MAX);
+    PORTD &= ~(1 << PD5);
+    _delay_ms(20);
+  }
+  return 0;
+}
