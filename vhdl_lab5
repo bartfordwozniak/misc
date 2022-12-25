@@ -1,0 +1,53 @@
+----------------------------------------------------------------------------------
+-- Company: WUST
+-- Engineer: Bartosz Woźniak 
+-- 
+-- Create Date:    11:44:24 11/23/2022 
+
+----------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.std_logic_unsigned.all;
+
+entity module1 is
+	port ( D : in std_logic_vector (7 downto 0); -- wejście
+		    Q : out std_logic_vector (7 downto 0); -- wyjście
+		    A : in std_logic_vector (1 downto 0); -- tryb pracy
+		    clk : in std_logic; -- wejście zegarowe
+		    nreset : in std_logic; -- wejście zerujące\
+			 COUNT : inout  STD_LOGIC_VECTOR (2 downto 0));
+end module1;
+
+architecture shift_reg of module1 is
+signal c : std_logic_vector(7 downto 0); -- sygnał wewn. 8-bitowy
+begin
+licznik: process (nreset,clk) -- proces z listą czułości: reset,clk
+begin
+	if (nreset = '0') then -- asynchroniczne zerowanie układu
+		--c <= (others => '0');
+		COUNT <= "000";
+		elsif(rising_edge(CLK))then
+		COUNT <= COUNT+1;
+		
+	elsif (clk'event and clk='1') then -- wyzwalanie zboczem narastającym
+	
+	--komparator---------------------------------------------------------
+		if A = "00" then
+			c <= c + 1 ; -- zliczanie „w górę"
+			
+		elsif A = "01" then
+			c <= c - 1; -- zliczanie „w dół"
+			
+		elsif A = "11" then
+			c <= D; -- wpisanie wartości początkowej
+			
+		end if;
+	end if; -- dla A=10 „bez zmian", czyli
+end process licznik; -- zatrzymanie licznika
+Q <= c; -- skierowanie stanu licznika na wyjście
+
+-- wyjście z najmłodszego bitu;
+--	Q <= c(0); -- poza procesem (!), bo to tylko
+-- połączenie a nie kolejny rejestr
+
+end shift_reg;
